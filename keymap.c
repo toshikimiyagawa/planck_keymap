@@ -20,11 +20,9 @@
 
 enum planck_layers {
   _QWERTY,
-  _COLEMAK,
-  _DVORAK,
   _LOWER,
   _RAISE,
-  _PLOVER,
+  _CAPS,
   _ADJUST
 };
 
@@ -36,15 +34,15 @@ enum planck_keycodes {
   KVM_2,
   KVM_3,
   KVM_4,
-  COLEMAK,
-  DVORAK,
-  PLOVER,
-  BACKLIT,
-  EXT_PLV
+  KVM_5,
+  KVM_6,
+  KVM_7,
+  KVM_8
 };
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define CAPS MO(_CAPS)
 #define CTL_Z LCTL(KC_Z)
 #define CTL_X LCTL(KC_X)
 #define CTL_C LCTL(KC_C)
@@ -56,15 +54,17 @@ enum planck_keycodes {
 #define AD_DESK LGUI(LCTL(KC_D))
 #define P_TOYS LGUI(LALT(KC_SPC))
 #define M_TASK LGUI(KC_TAB)
+#define W_UP LGUI(KC_UP)
+#define W_DOWN LGUI(KC_DOWN)
 #define W_LEFT LGUI(KC_LEFT)
 #define W_RGHT LGUI(KC_RGHT)
 #define LO_F13 LT(_LOWER, KC_F13)
 #define RA_F14 LT(_RAISE, KC_F14)
 #define CTL_F9 CTL_T(KC_F9)
 #define SFT_F7 SFT_T(KC_F7)
-#define M_LOWER MO(_LOWER)
-#define M_RAISE MO(_RAISE)
 #define SFT_ENT LSFT(KC_ENT)
+#define SFT_INS LSFT(KC_INS)
+#define CTL_INS LCTL(KC_INS)
 #define CTL_SPC LCTL(KC_SPC)
 #define TO_QW TO(_QWERTY)
 #define TO_LO TO(_LOWER)
@@ -91,46 +91,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_grid(
-      KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,  KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
-      KC_BSLS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,  KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
-      KC_LCTL, KC_LGUI, KC_LALT, KC_LCTL, LOWER,  KC_SPC, KC_ENT,  RAISE,  KC_LSFT, KC_LALT, KC_APP,  KC_LCTL \
-),
-
-/* Colemak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   F  |   P  |   G  |   J  |   L  |   U  |   Y  |   ;  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   R  |   S  |   T  |   D  |   H  |   N  |   E  |   I  |   O  |  "   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   K  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_COLEMAK] = LAYOUT_planck_grid(
-    KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,
-    KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
-
-/* Dvorak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   "  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   O  |   E  |   U  |   I  |   D  |   H  |   T  |   N  |   S  |  /   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   ;  |   Q  |   J  |   K  |   X  |   B  |   M  |   W  |   V  |   Z  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_DVORAK] = LAYOUT_planck_grid(
-    KC_TAB,  KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_BSPC,
-    KC_ESC,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH,
-    KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_ENT ,
-    BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+      KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
+      CAPS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
+      KC_LCTL, KC_LGUI, KC_LALT, KC_LCTL, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LSFT, KC_LALT, KC_APP,  KC_LCTL \
 ),
 
 /* Lower
@@ -145,10 +109,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid(
-      KC_ESC,  KC_ENT,  KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, XXXXXXX, KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, XXXXXXX, \
-      KC_TAB,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  XXXXXXX, \
-      _______, KC_LCTL, KC_BSPC, KC_DEL,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LSFT, \
-      _______, _______, _______, _______, _______, _______, SFT_ENT, _______, _______, _______, KC_LGUI, _______   \
+      KC_PSCR, KC_ENT,  KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, XXXXXXX, KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, KC_ESC, \
+      KC_F13,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_TAB, \
+      _______, KC_ESC,  KC_BSPC, KC_DEL,  KC_TAB,  KC_ESC,  KC_ESC,  KC_TAB,  KC_DEL,  KC_BSPC, KC_ESC, KC_LSFT, \
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______   \
 ),
 
 /* Raise
@@ -163,28 +127,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid(
-      KC_LCBR, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,  KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_RCBR, \
-      KC_LBRC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_RBRC, \
-      KC_F11,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,    KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F12, \
-      _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______  \
+      KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
+      KC_F14,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DQT, \
+      _______, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_BSLS, KC_PIPE, KC_COLN, KC_LT,   KC_GT,   KC_QUES, KC_PLUS, \
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 ),
 
-/* Plover layer (http://opensteno.org)
- * ,-----------------------------------------------------------------------------------.
- * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |   S  |   T  |   P  |   H  |   *  |   *  |   F  |   P  |   L  |   T  |   D  |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |   S  |   K  |   W  |   R  |   *  |   *  |   R  |   B  |   G  |   S  |   Z  |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Exit |      |      |   A  |   O  |             |   E  |   U  |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-[_PLOVER] = LAYOUT_planck_grid(
-    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1   ,
-    XXXXXXX, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,
-    XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    EXT_PLV, XXXXXXX, XXXXXXX, KC_C,    KC_V,    XXXXXXX, XXXXXXX, KC_N,    KC_M,    XXXXXXX, XXXXXXX, XXXXXXX
+[_CAPS] = LAYOUT_planck_grid(
+      XXXXXXX, P_TOYS,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, L_DESK,  W_UP,    R_DESK,  AD_DESK, KVM_1,  \
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, W_LEFT,  W_DOWN,  W_RGHT,  M_TASK,  KVM_2,  \
+      XXXXXXX, XXXXXXX, XXXXXXX, CTL_INS, SFT_INS, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KVM_3,  \
+      RGB_TOG, RGB_MOD, XXXXXXX, XXXXXXX, KC_F13,  CTL_SPC,  XXXXXXX, KC_F14,  KVM_1,   KVM_2,   KVM_3,   KVM_4  \
 ),
 
 /* Adjust (Lower + Raise)
@@ -200,18 +153,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-      KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-      KC_CAPS, XXXXXXX, XXXXXXX, KC_F13,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F14,  XXXXXXX, XXXXXXX, XXXXXXX, \
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-      _______, _______, _______, _______, _______, _______, _______, _______, KVM_1,   KVM_2,   KVM_3,   KVM_4 \
+      KC_CAPS, KVM_1,   KVM_2,   KVM_3,   KVM_4,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, \
+      KC_F11,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F12, \
+      KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, \
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 )
 
 };
-
-#ifdef AUDIO_ENABLE
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-#endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
@@ -228,10 +176,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_PRV:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_PGDN);
         unregister_code(KC_PGDN);
       }
@@ -239,10 +187,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_NXT:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_PGUP);
         unregister_code(KC_PGUP);
       }
@@ -250,10 +198,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_1:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_1);
         unregister_code(KC_1);
       }
@@ -261,10 +209,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_2:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_2);
         unregister_code(KC_2);
       }
@@ -272,10 +220,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_3:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_3);
         unregister_code(KC_3);
       }
@@ -283,172 +231,59 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case KVM_4:
       if (record->event.pressed) {
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
-        register_code(KC_SLCK);
-        unregister_code(KC_SLCK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
         register_code(KC_4);
         unregister_code(KC_4);
       }
       return false;
       break;
-    case COLEMAK:
+    case KVM_5:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_COLEMAK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_5);
+        unregister_code(KC_5);
       }
       return false;
       break;
-    case DVORAK:
+    case KVM_6:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_DVORAK);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_6);
+        unregister_code(KC_6);
       }
       return false;
       break;
-    case BACKLIT:
+    case KVM_7:
       if (record->event.pressed) {
-        register_code(KC_RSFT);
-        #ifdef BACKLIGHT_ENABLE
-          backlight_step();
-        #endif
-        #ifdef KEYBOARD_planck_rev5
-          writePinLow(E6);
-        #endif
-      } else {
-        unregister_code(KC_RSFT);
-        #ifdef KEYBOARD_planck_rev5
-          writePinHigh(E6);
-        #endif
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_7);
+        unregister_code(KC_7);
       }
       return false;
       break;
-    case PLOVER:
+    case KVM_8:
       if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          stop_all_notes();
-          PLAY_SONG(plover_song);
-        #endif
-        layer_off(_RAISE);
-        layer_off(_LOWER);
-        layer_off(_ADJUST);
-        layer_on(_PLOVER);
-        if (!eeconfig_is_enabled()) {
-            eeconfig_init();
-        }
-        keymap_config.raw = eeconfig_read_keymap();
-        keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
-      }
-      return false;
-      break;
-    case EXT_PLV:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_gb_song);
-        #endif
-        layer_off(_PLOVER);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_SCRL);
+        unregister_code(KC_SCRL);
+        register_code(KC_8);
+        unregister_code(KC_8);
       }
       return false;
       break;
   }
   return true;
-}
-
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
-
-void encoder_update(bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
-    }
-  }
-}
-
-void dip_switch_update_user(uint8_t index, bool active) {
-    switch (index) {
-        case 0: {
-#ifdef AUDIO_ENABLE
-            static bool play_sound = false;
-#endif
-            if (active) {
-#ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_song); }
-#endif
-                layer_on(_ADJUST);
-            } else {
-#ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_gb_song); }
-#endif
-                layer_off(_ADJUST);
-            }
-#ifdef AUDIO_ENABLE
-            play_sound = true;
-#endif
-            break;
-        }
-        case 1:
-            if (active) {
-                muse_mode = true;
-            } else {
-                muse_mode = false;
-            }
-    }
-}
-
-void matrix_scan_user(void) {
-#ifdef AUDIO_ENABLE
-    if (muse_mode) {
-        if (muse_counter == 0) {
-            uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
-            if (muse_note != last_muse_note) {
-                stop_note(compute_freq_for_midi_note(last_muse_note));
-                play_note(compute_freq_for_midi_note(muse_note), 0xF);
-                last_muse_note = muse_note;
-            }
-        }
-        muse_counter = (muse_counter + 1) % muse_tempo;
-    } else {
-        if (muse_counter) {
-            stop_all_notes();
-            muse_counter = 0;
-        }
-    }
-#endif
-}
-
-bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case RAISE:
-    case LOWER:
-      return false;
-    default:
-      return true;
-  }
 }
