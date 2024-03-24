@@ -13,17 +13,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include QMK_KEYBOARD_H
-#include "muse.h"
-
 
 enum planck_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
-  _CAPS,
-  _ADJUST
+  _ADJUST,
+  _FN
 };
 
 enum planck_keycodes {
@@ -42,40 +39,14 @@ enum planck_keycodes {
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
-#define CAPS MO(_CAPS)
-#define CTL_Z LCTL(KC_Z)
-#define CTL_X LCTL(KC_X)
-#define CTL_C LCTL(KC_C)
-#define CTL_V LCTL(KC_V)
-#define CTL_S_Z LCTL(LSFT(KC_Z))
-#define WIN_V LGUI(KC_V)
-#define L_DESK LGUI(LCTL(KC_LEFT))
-#define R_DESK LGUI(LCTL(KC_RGHT))
-#define AD_DESK LGUI(LCTL(KC_D))
-#define P_TOYS LGUI(LALT(KC_SPC))
-#define M_TASK LGUI(KC_TAB)
-#define W_UP LGUI(KC_UP)
-#define W_DOWN LGUI(KC_DOWN)
-#define W_LEFT LGUI(KC_LEFT)
-#define W_RGHT LGUI(KC_RGHT)
-#define LO_F13 LT(_LOWER, KC_F13)
-#define RA_F14 LT(_RAISE, KC_F14)
-#define CTL_F9 CTL_T(KC_F9)
-#define SFT_F7 SFT_T(KC_F7)
-#define SFT_ENT LSFT(KC_ENT)
-#define SFT_INS LSFT(KC_INS)
-#define CTL_INS LCTL(KC_INS)
-#define CTL_SPC LCTL(KC_SPC)
-#define TO_QW TO(_QWERTY)
-#define TO_LO TO(_LOWER)
-#define TX_UP LCTL(LALT(LSFT(KC_UP)))
-#define TX_DOWN LCTL(LALT(LSFT(KC_DOWN)))
-#define TX_RGHT LCTL(LALT(LSFT(KC_RIGHT)))
-#define TX_LEFT LCTL(LALT(LSFT(KC_LEFT)))
-#define TX_SPLV LCTL(LALT(LSFT(KC_PGUP)))
-#define TX_SPLH LCTL(LALT(LSFT(KC_PGDN)))
-#define TX_NWIN LCTL(LALT(LSFT(KC_HOME)))
-#define TX_PRFX LCTL(KC_RBRC)
+#define FN MO(_FN)
+#define S_ENT LSFT(KC_ENT)
+#define S_SPC LSFT(KC_SPC)
+#define CS_UP LCTL(LSFT(KC_UP))
+#define CS_DOWN LCTL(LSFT(KC_DOWN))
+#define CS_LEFT LCTL(LSFT(KC_LEFT))
+#define CS_RGHT LCTL(LSFT(KC_RGHT))
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -90,11 +61,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
-[_QWERTY] = LAYOUT_planck_grid(
+[_QWERTY] = LAYOUT_ortho_4x12(
       KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
-      CAPS,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+      KC_RGUI, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
       KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
-      KC_LCTL, KC_LGUI, KC_LALT, KC_LCTL, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LSFT, KC_LALT, KC_APP,  KC_LCTL \
+      KC_LCTL, FN,      KC_F15,  KC_LCTL, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LSFT, KC_F15,  KC_RCTL,  KC_LCTL \
 ),
 
 /* Lower
@@ -108,10 +79,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT_planck_grid(
-      KC_PSCR, KC_ENT,  KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, XXXXXXX, KC_PGUP, KC_UP,   KC_PGDN, XXXXXXX, KC_ESC, \
-      KC_F13,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_HOME, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_TAB, \
-      _______, KC_ESC,  KC_BSPC, KC_DEL,  KC_TAB,  KC_ESC,  KC_ESC,  KC_TAB,  KC_DEL,  KC_BSPC, KC_ESC, KC_LSFT, \
+[_LOWER] = LAYOUT_ortho_4x12(
+      KC_CAPS, KC_PGUP, KC_HOME, KC_UP,   KC_END,  XXXXXXX,  KC_SCRL, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_PSCR, \
+      _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_ESC,   XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_TAB, \
+      _______, KC_LCTL, KC_BSPC, KC_DEL,  KC_TAB,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, KC_LALT, KC_LSFT, KC_LCTL, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______   \
 ),
 
@@ -126,18 +97,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT_planck_grid(
+[_RAISE] = LAYOUT_ortho_4x12(
       KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
-      KC_F14,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DQT, \
-      _______, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_BSLS, KC_PIPE, KC_COLN, KC_LT,   KC_GT,   KC_QUES, KC_PLUS, \
+      _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DQT, \
+      _______, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_BSLS, KC_COLN, KC_PIPE, KC_LT,   KC_GT,   KC_QUES, KC_PLUS, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
-),
-
-[_CAPS] = LAYOUT_planck_grid(
-      XXXXXXX, P_TOYS,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, L_DESK,  W_UP,    R_DESK,  AD_DESK, KVM_1,  \
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, W_LEFT,  W_DOWN,  W_RGHT,  M_TASK,  KVM_2,  \
-      XXXXXXX, XXXXXXX, XXXXXXX, CTL_INS, SFT_INS, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KVM_3,  \
-      RGB_TOG, RGB_MOD, XXXXXXX, XXXXXXX, KC_F13,  CTL_SPC,  XXXXXXX, KC_F14,  KVM_1,   KVM_2,   KVM_3,   KVM_4  \
 ),
 
 /* Adjust (Lower + Raise)
@@ -152,11 +116,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_ADJUST] = LAYOUT_planck_grid(
-      KC_CAPS, KVM_1,   KVM_2,   KVM_3,   KVM_4,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, \
-      KC_F11,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F12, \
-      KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, \
+[_ADJUST] = LAYOUT_ortho_4x12(
+      QK_BOOT, KVM_1,   KVM_2,   KVM_3,   KVM_4,   KVM_5,   KVM_6,   KVM_7,   KVM_8,   KVM_PRV, KVM_NXT, KC_PSCR, \
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
+      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
+),
+[_FN] = LAYOUT_ortho_4x12(
+      XXXXXXX, XXXXXXX, XXXXXXX, CS_UP,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+      XXXXXXX, XXXXXXX, CS_LEFT, CS_DOWN, CS_RGHT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+      _______, KVM_1,   KVM_2,   KVM_3,   KVM_4,   KVM_5,   KVM_6,   KVM_7,   KVM_8,   KVM_PRV, KVM_NXT, XXXXXXX, \
+      _______, _______, _______, _______, KC_F13,  S_SPC,   S_ENT,   KC_F14,  _______, _______, _______, _______  \
 )
 
 };
@@ -287,3 +257,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
+// コンボの定義
+const uint16_t PROGMEM combo1[] = {KC_S, KC_D, COMBO_END};
+const uint16_t PROGMEM combo2[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM combo3[] = {KC_A, KC_S, COMBO_END};
+const uint16_t PROGMEM combo4[] = {KC_Q, KC_W, COMBO_END};
+
+combo_t key_combos[] = {
+  COMBO(combo1, KC_F13),
+  COMBO(combo2, KC_F14),
+  COMBO(combo3, KC_TAB),
+  COMBO(combo4, KC_ESC)
+};
