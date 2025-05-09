@@ -17,10 +17,11 @@
 
 enum planck_layers {
   _QWERTY,
+  _JIS,
   _LOWER,
   _RAISE,
-  _ADJUST,
-  _FN
+  _JISR,
+  _ADJUST
 };
 
 enum planck_keycodes {
@@ -39,111 +40,88 @@ enum planck_keycodes {
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
-#define FN MO(_FN)
+#define JIS TG(_JIS)
+#define JISR MO(_JISR)
+#define C_SPC LCTL(KC_SPC)
 #define S_ENT LSFT(KC_ENT)
-#define S_SPC LSFT(KC_SPC)
-#define CS_UP LCTL(LSFT(KC_UP))
-#define CS_DOWN LCTL(LSFT(KC_DOWN))
 #define CS_LEFT LCTL(LSFT(KC_LEFT))
 #define CS_RGHT LCTL(LSFT(KC_RGHT))
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
 [_QWERTY] = LAYOUT_ortho_4x12(
-      KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
-      KC_RGUI, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-      KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
-      KC_LCTL, FN,      KC_F15,  KC_LCTL, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LSFT, KC_F15,  KC_RCTL,  KC_LCTL \
+  KC_BSPC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
+  KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
+  KC_TAB,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
+  KC_LCTL,  KC_RCTL, KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_RALT, KC_LGUI, KC_RCTL, KC_LCTL \
 ),
 
-/* Lower
- * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   {  |   }  |  |   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | | Home | End  |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
+[_JIS] = LAYOUT_ortho_4x12(
+  KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
+  KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_QUOT, KC_AMPR, \
+  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_UNDS, \
+  KC_LCTL, KC_LGUI, KC_LALT, KC_LCTL, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LSFT, KC_F18,  KC_F19,  KC_F20 \
+),
+
 [_LOWER] = LAYOUT_ortho_4x12(
-      KC_CAPS, KC_PGUP, KC_HOME, KC_UP,   KC_END,  XXXXXXX,  KC_SCRL, KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_PSCR, \
-      _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_ESC,   XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_TAB, \
-      _______, KC_LCTL, KC_BSPC, KC_DEL,  KC_TAB,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, KC_LALT, KC_LSFT, KC_LCTL, \
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______   \
+  KC_DEL, KC_PGUP, KC_HOME, KC_UP,   KC_END,  CS_LEFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, \
+  KC_SCRL, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, CS_RGHT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
+  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11, \
+  _______, _______, _______, _______, _______, _______, S_ENT,   _______, _______, _______, _______, _______\
 ),
 
-/* Raise
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |   =  |   [  |   ]  |  \   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |Pg Up |Pg Dn |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
 [_RAISE] = LAYOUT_ortho_4x12(
-      KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
-      _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DQT, \
-      _______, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_BSLS, KC_COLN, KC_PIPE, KC_LT,   KC_GT,   KC_QUES, KC_PLUS, \
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
+  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
+  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DQT, \
+  _______, KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_BSLS, KC_COLN, KC_PIPE, KC_LT,   KC_GT,   KC_QUES, KC_PLUS, \
+  _______, _______, _______, _______, _______, C_SPC,   _______, _______, _______, _______, _______, _______\
 ),
 
-/* Adjust (Lower + Raise)
- *                      v------------------------RGB CONTROL--------------------v
- * ,-----------------------------------------------------------------------------------.
- * |      | Reset|Debug | RGB  |RGBMOD| HUE+ | HUE- | SAT+ | SAT- |BRGTH+|BRGTH-|  Del |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |MUSmod|Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|Plover|      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |Voice-|Voice+|Mus on|Musoff|MIDIon|MIDIof|TermOn|TermOf|      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
+[_JISR] = LAYOUT_ortho_4x12(
+  KC_LCBR, KC_EXLM, KC_LBRC, KC_HASH, KC_DLR,  KC_PERC, KC_EQL,  KC_CIRC, KC_DQT,  KC_ASTR, KC_LPRN, S(KC_INT1), \
+  KC_PLUS, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_AT, \
+  _______, S(KC_INT3), KC_INT1, KC_SCLN, KC_RCBR, KC_PIPE, KC_RBRC, KC_BSLS,  KC_LT,   KC_GT,   KC_QUES, KC_COLN, \
+  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, JIS \
+),
+
 [_ADJUST] = LAYOUT_ortho_4x12(
-      QK_BOOT, KVM_1,   KVM_2,   KVM_3,   KVM_4,   KVM_5,   KVM_6,   KVM_7,   KVM_8,   KVM_PRV, KVM_NXT, KC_PSCR, \
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F12, \
-      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  \
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
-),
-[_FN] = LAYOUT_ortho_4x12(
-      XXXXXXX, XXXXXXX, XXXXXXX, CS_UP,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-      XXXXXXX, XXXXXXX, CS_LEFT, CS_DOWN, CS_RGHT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-      _______, KVM_1,   KVM_2,   KVM_3,   KVM_4,   KVM_5,   KVM_6,   KVM_7,   KVM_8,   KVM_PRV, KVM_NXT, XXXXXXX, \
-      _______, _______, _______, _______, KC_F13,  S_SPC,   S_ENT,   KC_F14,  _______, _______, _______, _______  \
+  QK_BOOT, DB_TOGG, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, XXXXXXX, XXXXXXX,\
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  _______, KVM_1,   KVM_2,   KVM_3,   KVM_4,   KVM_5,   KVM_6,   KVM_7,   KVM_8,   KVM_PRV, KVM_NXT, XXXXXXX, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, JIS  \
 )
-
 };
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case QWERTY:
+    case LOWER:
       if (record->event.pressed) {
-        print("mode just switched to qwerty and this is a huge string\n");
-        set_single_persistent_default_layer(_QWERTY);
+        layer_on(_LOWER);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      } else {
+        layer_off(_LOWER);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
-      break;
+    case RAISE:
+      if (record->event.pressed) {
+        layer_on(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      } else {
+        layer_off(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      }
+      return false;
+    case JISR:
+      if (record->event.pressed) {
+        layer_on(_JISR);
+        update_tri_layer(_LOWER, _JISR, _ADJUST);
+      } else {
+        layer_off(_JISR);
+        update_tri_layer(_LOWER, _JISR, _ADJUST);
+      }
+      return false;
     case KVM_PRV:
       if (record->event.pressed) {
         register_code(KC_SCRL);
@@ -258,15 +236,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-// コンボの定義
-const uint16_t PROGMEM combo1[] = {KC_S, KC_D, COMBO_END};
-const uint16_t PROGMEM combo2[] = {KC_K, KC_L, COMBO_END};
-const uint16_t PROGMEM combo3[] = {KC_A, KC_S, COMBO_END};
-const uint16_t PROGMEM combo4[] = {KC_Q, KC_W, COMBO_END};
-
-combo_t key_combos[] = {
-  COMBO(combo1, KC_F13),
-  COMBO(combo2, KC_F14),
-  COMBO(combo3, KC_TAB),
-  COMBO(combo4, KC_ESC)
-};
